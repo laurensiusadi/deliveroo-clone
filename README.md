@@ -5,8 +5,10 @@ https://blog.strapi.io/cooking-a-deliveroo-clone-with-nuxt-vue-js-graphql-strapi
 
 ## Requirements
 - node.js version 10 LTS
+- npm
+- strapi
 
 ## How to Run
 - Development:
   - cd client && npm run dev
-  - cd server && npm start
+  - cd server && strapi start

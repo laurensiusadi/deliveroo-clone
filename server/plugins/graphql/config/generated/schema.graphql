@@ -1,3 +1,11 @@
+input createDishInput {
+  data: DishInput
+}
+
+type createDishPayload {
+  dish: Dish
+}
+
 input createRestaurantInput {
   data: RestaurantInput
 }
@@ -27,6 +35,14 @@ The `DateTime` scalar represents a date and time following the ISO 8601 standard
 """
 scalar DateTime
 
+input deleteDishInput {
+  where: InputID
+}
+
+type deleteDishPayload {
+  dish: Dish
+}
+
 input deleteRestaurantInput {
   where: InputID
 }
@@ -51,6 +67,122 @@ type deleteUserPayload {
   user: UsersPermissionsUser
 }
 
+type Dish {
+  _id: ID!
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String
+  description: String
+  image: UploadFile
+  price: Float
+  restaurant: Restaurant
+}
+
+type DishAggregator {
+  count: Int
+  totalCount: Int
+  sum: DishAggregatorSum
+  avg: DishAggregatorAvg
+  min: DishAggregatorMin
+  max: DishAggregatorMax
+}
+
+type DishAggregatorAvg {
+  price: Float
+}
+
+type DishAggregatorMax {
+  price: Float
+}
+
+type DishAggregatorMin {
+  price: Float
+}
+
+type DishAggregatorSum {
+  price: Float
+}
+
+type DishConnection {
+  values: [Dish]
+  groupBy: DishGroupBy
+  aggregate: DishAggregator
+}
+
+type DishConnection_id {
+  key: ID
+  connection: DishConnection
+}
+
+type DishConnectionCreatedAt {
+  key: DateTime
+  connection: DishConnection
+}
+
+type DishConnectionDescription {
+  key: String
+  connection: DishConnection
+}
+
+type DishConnectionId {
+  key: ID
+  connection: DishConnection
+}
+
+type DishConnectionImage {
+  key: ID
+  connection: DishConnection
+}
+
+type DishConnectionName {
+  key: String
+  connection: DishConnection
+}
+
+type DishConnectionPrice {
+  key: Float
+  connection: DishConnection
+}
+
+type DishConnectionRestaurant {
+  key: ID
+  connection: DishConnection
+}
+
+type DishConnectionUpdatedAt {
+  key: DateTime
+  connection: DishConnection
+}
+
+type DishGroupBy {
+  _id: [DishConnection_id]
+  id: [DishConnectionId]
+  createdAt: [DishConnectionCreatedAt]
+  updatedAt: [DishConnectionUpdatedAt]
+  name: [DishConnectionName]
+  description: [DishConnectionDescription]
+  image: [DishConnectionImage]
+  price: [DishConnectionPrice]
+  restaurant: [DishConnectionRestaurant]
+}
+
+input DishInput {
+  name: String
+  description: String
+  image: ID
+  price: Float
+  restaurant: ID
+}
+
+input editDishInput {
+  name: String
+  description: String
+  image: ID
+  price: Float
+  restaurant: ID
+}
+
 input editFileInput {
   name: String
   hash: String
@@ -68,6 +200,7 @@ input editRestaurantInput {
   name: String
   description: String
   image: ID
+  dishes: [ID]
 }
 
 input editRoleInput {
@@ -114,9 +247,12 @@ scalar JSON
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Restaurant | createRestaurantPayload | updateRestaurantPayload | deleteRestaurantPayload | RestaurantConnection | RestaurantAggregator | RestaurantGroupBy | RestaurantConnection_id | RestaurantConnectionId | RestaurantConnectionCreatedAt | RestaurantConnectionUpdatedAt | RestaurantConnectionName | RestaurantConnectionDescription | RestaurantConnectionImage | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileGroupBy | UploadFileConnection_id | UploadFileConnectionId | UploadFileConnectionCreatedAt | UploadFileConnectionUpdatedAt | UploadFileConnectionName | UploadFileConnectionHash | UploadFileConnectionSha256 | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionProvider | UploadFileConnectionPublic_id | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnection_id | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnection_id | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Dish | createDishPayload | updateDishPayload | deleteDishPayload | DishConnection | DishAggregator | DishAggregatorSum | DishAggregatorAvg | DishAggregatorMin | DishAggregatorMax | DishGroupBy | DishConnection_id | DishConnectionId | DishConnectionCreatedAt | DishConnectionUpdatedAt | DishConnectionName | DishConnectionDescription | DishConnectionImage | DishConnectionPrice | DishConnectionRestaurant | Restaurant | createRestaurantPayload | updateRestaurantPayload | deleteRestaurantPayload | RestaurantConnection | RestaurantAggregator | RestaurantGroupBy | RestaurantConnection_id | RestaurantConnectionId | RestaurantConnectionCreatedAt | RestaurantConnectionUpdatedAt | RestaurantConnectionName | RestaurantConnectionDescription | RestaurantConnectionImage | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileGroupBy | UploadFileConnection_id | UploadFileConnectionId | UploadFileConnectionCreatedAt | UploadFileConnectionUpdatedAt | UploadFileConnectionName | UploadFileConnectionHash | UploadFileConnectionSha256 | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionProvider | UploadFileConnectionPublic_id | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnection_id | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnection_id | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole
 
 type Mutation {
+  createDish(input: createDishInput): createDishPayload
+  updateDish(input: updateDishInput): updateDishPayload
+  deleteDish(input: deleteDishInput): deleteDishPayload
   createRestaurant(input: createRestaurantInput): createRestaurantPayload
   updateRestaurant(input: updateRestaurantInput): updateRestaurantPayload
   deleteRestaurant(input: deleteRestaurantInput): deleteRestaurantPayload
@@ -142,6 +278,9 @@ type Mutation {
 }
 
 type Query {
+  dish(id: ID!): Dish
+  dishes(sort: String, limit: Int, start: Int, where: JSON): [Dish]
+  dishesConnection(sort: String, limit: Int, start: Int, where: JSON): DishConnection
   restaurant(id: ID!): Restaurant
   restaurants(sort: String, limit: Int, start: Int, where: JSON): [Restaurant]
   restaurantsConnection(sort: String, limit: Int, start: Int, where: JSON): RestaurantConnection
@@ -168,6 +307,7 @@ type Restaurant {
   name: String
   description: String
   image: UploadFile
+  dishes(sort: String, limit: Int, start: Int, where: JSON): [Dish]
 }
 
 type RestaurantAggregator {
@@ -230,6 +370,7 @@ input RestaurantInput {
   name: String
   description: String
   image: ID
+  dishes: [ID]
 }
 
 input RoleInput {
@@ -238,6 +379,15 @@ input RoleInput {
   type: String
   permissions: [ID]
   users: [ID]
+}
+
+input updateDishInput {
+  where: InputID
+  data: editDishInput
+}
+
+type updateDishPayload {
+  dish: Dish
 }
 
 input updateRestaurantInput {

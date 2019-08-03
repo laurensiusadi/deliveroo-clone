@@ -1,8 +1,8 @@
 {
   "connection": "default",
-  "collectionName": "restaurant",
+  "collectionName": "",
   "info": {
-    "name": "restaurant",
+    "name": "dish",
     "description": ""
   },
   "options": {
@@ -20,9 +20,12 @@
       "via": "related",
       "plugin": "upload"
     },
-    "dishes": {
-      "collection": "dish",
-      "via": "restaurant"
+    "price": {
+      "type": "decimal"
+    },
+    "restaurant": {
+      "model": "restaurant",
+      "via": "dishes"
     }
   }
 }

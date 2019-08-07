@@ -44,7 +44,9 @@ export default {
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    'nuxt-client-init-module',
+    ['cookie-universal-nuxt', { alias: 'cookies' }]
   ],
   /*
   ** Axios module configuration

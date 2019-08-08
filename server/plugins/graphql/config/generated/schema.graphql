@@ -6,6 +6,14 @@ type createDishPayload {
   dish: Dish
 }
 
+input createOrderInput {
+  data: OrderInput
+}
+
+type createOrderPayload {
+  order: Order
+}
+
 input createRestaurantInput {
   data: RestaurantInput
 }
@@ -41,6 +49,14 @@ input deleteDishInput {
 
 type deleteDishPayload {
   dish: Dish
+}
+
+input deleteOrderInput {
+  where: InputID
+}
+
+type deleteOrderPayload {
+  order: Order
 }
 
 input deleteRestaurantInput {
@@ -196,6 +212,15 @@ input editFileInput {
   related: [ID]
 }
 
+input editOrderInput {
+  address: String
+  postalCode: String
+  city: String
+  dishes: JSON
+  amount: Float
+  user: ID
+}
+
 input editRestaurantInput {
   name: String
   description: String
@@ -220,6 +245,7 @@ input editUserInput {
   confirmed: Boolean
   blocked: Boolean
   role: ID
+  orders: [ID]
 }
 
 input FileInput {
@@ -247,12 +273,15 @@ scalar JSON
 """The `Long` scalar type represents 52-bit integers"""
 scalar Long
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Dish | createDishPayload | updateDishPayload | deleteDishPayload | DishConnection | DishAggregator | DishAggregatorSum | DishAggregatorAvg | DishAggregatorMin | DishAggregatorMax | DishGroupBy | DishConnection_id | DishConnectionId | DishConnectionCreatedAt | DishConnectionUpdatedAt | DishConnectionName | DishConnectionDescription | DishConnectionImage | DishConnectionPrice | DishConnectionRestaurant | Restaurant | createRestaurantPayload | updateRestaurantPayload | deleteRestaurantPayload | RestaurantConnection | RestaurantAggregator | RestaurantGroupBy | RestaurantConnection_id | RestaurantConnectionId | RestaurantConnectionCreatedAt | RestaurantConnectionUpdatedAt | RestaurantConnectionName | RestaurantConnectionDescription | RestaurantConnectionImage | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileGroupBy | UploadFileConnection_id | UploadFileConnectionId | UploadFileConnectionCreatedAt | UploadFileConnectionUpdatedAt | UploadFileConnectionName | UploadFileConnectionHash | UploadFileConnectionSha256 | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionProvider | UploadFileConnectionPublic_id | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnection_id | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnection_id | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Dish | createDishPayload | updateDishPayload | deleteDishPayload | DishConnection | DishAggregator | DishAggregatorSum | DishAggregatorAvg | DishAggregatorMin | DishAggregatorMax | DishGroupBy | DishConnection_id | DishConnectionId | DishConnectionCreatedAt | DishConnectionUpdatedAt | DishConnectionName | DishConnectionDescription | DishConnectionImage | DishConnectionPrice | DishConnectionRestaurant | Order | createOrderPayload | updateOrderPayload | deleteOrderPayload | OrderConnection | OrderAggregator | OrderAggregatorSum | OrderAggregatorAvg | OrderAggregatorMin | OrderAggregatorMax | OrderGroupBy | OrderConnection_id | OrderConnectionId | OrderConnectionCreatedAt | OrderConnectionUpdatedAt | OrderConnectionAddress | OrderConnectionPostalCode | OrderConnectionCity | OrderConnectionDishes | OrderConnectionAmount | OrderConnectionUser | Restaurant | createRestaurantPayload | updateRestaurantPayload | deleteRestaurantPayload | RestaurantConnection | RestaurantAggregator | RestaurantGroupBy | RestaurantConnection_id | RestaurantConnectionId | RestaurantConnectionCreatedAt | RestaurantConnectionUpdatedAt | RestaurantConnectionName | RestaurantConnectionDescription | RestaurantConnectionImage | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileGroupBy | UploadFileConnection_id | UploadFileConnectionId | UploadFileConnectionCreatedAt | UploadFileConnectionUpdatedAt | UploadFileConnectionName | UploadFileConnectionHash | UploadFileConnectionSha256 | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionProvider | UploadFileConnectionPublic_id | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnection_id | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnection_id | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole
 
 type Mutation {
   createDish(input: createDishInput): createDishPayload
   updateDish(input: updateDishInput): updateDishPayload
   deleteDish(input: deleteDishInput): deleteDishPayload
+  createOrder(input: createOrderInput): createOrderPayload
+  updateOrder(input: updateOrderInput): updateOrderPayload
+  deleteOrder(input: deleteOrderInput): deleteOrderPayload
   createRestaurant(input: createRestaurantInput): createRestaurantPayload
   updateRestaurant(input: updateRestaurantInput): updateRestaurantPayload
   deleteRestaurant(input: deleteRestaurantInput): deleteRestaurantPayload
@@ -277,10 +306,129 @@ type Mutation {
   upload(refId: ID, ref: String, source: String, file: Upload!): UploadFile!
 }
 
+type Order {
+  _id: ID!
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  address: String
+  postalCode: String
+  city: String
+  dishes: JSON
+  amount: Float
+  user: UsersPermissionsUser
+}
+
+type OrderAggregator {
+  count: Int
+  totalCount: Int
+  sum: OrderAggregatorSum
+  avg: OrderAggregatorAvg
+  min: OrderAggregatorMin
+  max: OrderAggregatorMax
+}
+
+type OrderAggregatorAvg {
+  amount: Float
+}
+
+type OrderAggregatorMax {
+  amount: Float
+}
+
+type OrderAggregatorMin {
+  amount: Float
+}
+
+type OrderAggregatorSum {
+  amount: Float
+}
+
+type OrderConnection {
+  values: [Order]
+  groupBy: OrderGroupBy
+  aggregate: OrderAggregator
+}
+
+type OrderConnection_id {
+  key: ID
+  connection: OrderConnection
+}
+
+type OrderConnectionAddress {
+  key: String
+  connection: OrderConnection
+}
+
+type OrderConnectionAmount {
+  key: Float
+  connection: OrderConnection
+}
+
+type OrderConnectionCity {
+  key: String
+  connection: OrderConnection
+}
+
+type OrderConnectionCreatedAt {
+  key: DateTime
+  connection: OrderConnection
+}
+
+type OrderConnectionDishes {
+  key: JSON
+  connection: OrderConnection
+}
+
+type OrderConnectionId {
+  key: ID
+  connection: OrderConnection
+}
+
+type OrderConnectionPostalCode {
+  key: String
+  connection: OrderConnection
+}
+
+type OrderConnectionUpdatedAt {
+  key: DateTime
+  connection: OrderConnection
+}
+
+type OrderConnectionUser {
+  key: ID
+  connection: OrderConnection
+}
+
+type OrderGroupBy {
+  _id: [OrderConnection_id]
+  id: [OrderConnectionId]
+  createdAt: [OrderConnectionCreatedAt]
+  updatedAt: [OrderConnectionUpdatedAt]
+  address: [OrderConnectionAddress]
+  postalCode: [OrderConnectionPostalCode]
+  city: [OrderConnectionCity]
+  dishes: [OrderConnectionDishes]
+  amount: [OrderConnectionAmount]
+  user: [OrderConnectionUser]
+}
+
+input OrderInput {
+  address: String
+  postalCode: String
+  city: String
+  dishes: JSON
+  amount: Float
+  user: ID
+}
+
 type Query {
   dish(id: ID!): Dish
   dishes(sort: String, limit: Int, start: Int, where: JSON): [Dish]
   dishesConnection(sort: String, limit: Int, start: Int, where: JSON): DishConnection
+  order(id: ID!): Order
+  orders(sort: String, limit: Int, start: Int, where: JSON): [Order]
+  ordersConnection(sort: String, limit: Int, start: Int, where: JSON): OrderConnection
   restaurant(id: ID!): Restaurant
   restaurants(sort: String, limit: Int, start: Int, where: JSON): [Restaurant]
   restaurantsConnection(sort: String, limit: Int, start: Int, where: JSON): RestaurantConnection
@@ -388,6 +536,15 @@ input updateDishInput {
 
 type updateDishPayload {
   dish: Dish
+}
+
+input updateOrderInput {
+  where: InputID
+  data: editOrderInput
+}
+
+type updateOrderPayload {
+  order: Order
 }
 
 input updateRestaurantInput {
@@ -538,6 +695,7 @@ input UserInput {
   confirmed: Boolean
   blocked: Boolean
   role: ID
+  orders: [ID]
 }
 
 type UsersPermissionsMe {
@@ -630,6 +788,7 @@ type UsersPermissionsUser {
   confirmed: Boolean
   blocked: Boolean
   role: UsersPermissionsRole
+  orders(sort: String, limit: Int, start: Int, where: JSON): [Order]
 }
 
 type UsersPermissionsUserAggregator {

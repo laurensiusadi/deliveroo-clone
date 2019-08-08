@@ -1,0 +1,33 @@
+{
+  "connection": "default",
+  "collectionName": "order",
+  "info": {
+    "name": "order",
+    "description": ""
+  },
+  "options": {
+    "timestamps": true
+  },
+  "attributes": {
+    "address": {
+      "type": "string"
+    },
+    "postalCode": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "dishes": {
+      "type": "json"
+    },
+    "amount": {
+      "type": "decimal"
+    },
+    "user": {
+      "model": "user",
+      "via": "orders",
+      "plugin": "users-permissions"
+    }
+  }
+}

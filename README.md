@@ -12,3 +12,8 @@ https://blog.strapi.io/cooking-a-deliveroo-clone-with-nuxt-vue-js-graphql-strapi
 - Development:
   - cd client && npm run dev
   - cd server && strapi start
+
+## Setup
+
+- Database: `mongodb`
+- Database name: `deliveroo-clone`

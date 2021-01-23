@@ -1,11 +1,11 @@
 {
-  "connection": "default",
-  "collectionName": "order",
+  "kind": "collectionType",
+  "collectionName": "orders",
   "info": {
-    "name": "order",
-    "description": ""
+    "name": "Order"
   },
   "options": {
+    "increments": true,
     "timestamps": true
   },
   "attributes": {
@@ -18,16 +18,16 @@
     "city": {
       "type": "string"
     },
+    "amount": {
+      "type": "integer"
+    },
     "dishes": {
       "type": "json"
     },
-    "amount": {
-      "type": "decimal"
-    },
     "user": {
+      "plugin": "users-permissions",
       "model": "user",
-      "via": "orders",
-      "plugin": "users-permissions"
+      "via": "orders"
     }
   }
 }

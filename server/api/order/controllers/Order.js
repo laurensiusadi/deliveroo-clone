@@ -1,78 +1,49 @@
 'use strict';
+const stripe = require('stripe')('sk_test_w0LQdM68iXOgZwe8QqGm9py8004MAND3GG');
 
 /**
- * Order.js controller
- *
- * @description: A set of functions called "actions" for managing `Order`.
+ * Read the documentation (https://strapi.io/documentation/3.0.0-beta.x/concepts/controllers.html#core-controllers)
+ * to customize this controller
  */
 
 module.exports = {
+  create: async ctx => {
+    const {
+      address,
+      amount,
+      dishes,
+      postalCode,
+      token,
+      city,
+    } = ctx.request.body;
 
-  /**
-   * Retrieve order records.
-   *
-   * @return {Object|Array}
-   */
+    // Charge the customer
+    try {
+      await stripe.charges.create({
+        // Transform cents to dollars.
+        amount: amount * 100,
+        currency: 'usd',
+        description: `Order ${new Date()} by ${ctx.state.user.id}`,
+        source: token,
+      });
 
-  find: async (ctx, next, { populate } = {}) => {
-    if (ctx.query._q) {
-      return strapi.services.order.search(ctx.query);
-    } else {
-      return strapi.services.order.fetchAll(ctx.query, populate);
+      // Register the order in the database
+      try {
+        const order = await strapi.services.order.create({
+          user: ctx.state.user.id,
+          address,
+          amount,
+          dishes,
+          postalCode,
+          city,
+        });
+
+        return order;
+      } catch (err) {
+        // Silent
+      }
+    } catch (err) {
+      // Silent
     }
   },
-
-  /**
-   * Retrieve a order record.
-   *
-   * @return {Object}
-   */
-
-  findOne: async (ctx) => {
-    if (!ctx.params._id.match(/^[0-9a-fA-F]{24}$/)) {
-      return ctx.notFound();
-    }
-
-    return strapi.services.order.fetch(ctx.params);
-  },
-
-  /**
-   * Count order records.
-   *
-   * @return {Number}
-   */
-
-  count: async (ctx) => {
-    return strapi.services.order.count(ctx.query);
-  },
-
-  /**
-   * Create a/an order record.
-   *
-   * @return {Object}
-   */
-
-  create: async (ctx) => {
-    return strapi.services.order.add(ctx.request.body);
-  },
-
-  /**
-   * Update a/an order record.
-   *
-   * @return {Object}
-   */
-
-  update: async (ctx, next) => {
-    return strapi.services.order.edit(ctx.params, ctx.request.body) ;
-  },
-
-  /**
-   * Destroy a/an order record.
-   *
-   * @return {Object}
-   */
-
-  destroy: async (ctx, next) => {
-    return strapi.services.order.remove(ctx.params);
-  }
 };

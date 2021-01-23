@@ -3,7 +3,7 @@
     {
       "method": "GET",
       "path": "/restaurants",
-      "handler": "Restaurant.find",
+      "handler": "restaurant.find",
       "config": {
         "policies": []
       }
@@ -11,15 +11,15 @@
     {
       "method": "GET",
       "path": "/restaurants/count",
-      "handler": "Restaurant.count",
+      "handler": "restaurant.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/restaurants/:_id",
-      "handler": "Restaurant.findOne",
+      "path": "/restaurants/:id",
+      "handler": "restaurant.findOne",
       "config": {
         "policies": []
       }
@@ -27,23 +27,23 @@
     {
       "method": "POST",
       "path": "/restaurants",
-      "handler": "Restaurant.create",
+      "handler": "restaurant.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/restaurants/:_id",
-      "handler": "Restaurant.update",
+      "path": "/restaurants/:id",
+      "handler": "restaurant.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/restaurants/:_id",
-      "handler": "Restaurant.destroy",
+      "path": "/restaurants/:id",
+      "handler": "restaurant.delete",
       "config": {
         "policies": []
       }

@@ -3,7 +3,7 @@
     {
       "method": "GET",
       "path": "/orders",
-      "handler": "Order.find",
+      "handler": "order.find",
       "config": {
         "policies": []
       }
@@ -11,15 +11,15 @@
     {
       "method": "GET",
       "path": "/orders/count",
-      "handler": "Order.count",
+      "handler": "order.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/orders/:_id",
-      "handler": "Order.findOne",
+      "path": "/orders/:id",
+      "handler": "order.findOne",
       "config": {
         "policies": []
       }
@@ -27,23 +27,23 @@
     {
       "method": "POST",
       "path": "/orders",
-      "handler": "Order.create",
+      "handler": "order.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/orders/:_id",
-      "handler": "Order.update",
+      "path": "/orders/:id",
+      "handler": "order.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/orders/:_id",
-      "handler": "Order.destroy",
+      "path": "/orders/:id",
+      "handler": "order.delete",
       "config": {
         "policies": []
       }

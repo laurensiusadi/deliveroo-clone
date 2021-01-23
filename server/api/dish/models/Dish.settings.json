@@ -1,11 +1,11 @@
 {
-  "connection": "default",
-  "collectionName": "",
+  "kind": "collectionType",
+  "collectionName": "dishes",
   "info": {
-    "name": "dish",
-    "description": ""
+    "name": "dish"
   },
   "options": {
+    "increments": true,
     "timestamps": true
   },
   "attributes": {
@@ -13,12 +13,18 @@
       "type": "string"
     },
     "description": {
-      "type": "text"
+      "type": "richtext"
     },
     "image": {
       "model": "file",
       "via": "related",
-      "plugin": "upload"
+      "allowedTypes": [
+        "files",
+        "images",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": true
     },
     "price": {
       "type": "decimal"
